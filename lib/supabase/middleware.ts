@@ -36,16 +36,19 @@ export async function updateSession(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Public routes that don't require auth
-  const publicRoutes = ["/login", "/api/auth/callback"];
+  const publicRoutes = ["/login", "/api/auth/callback", "/api/auth/demo"];
   const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route));
 
-  if (!user && !isPublicRoute) {
+  // Demo mode bypass
+  const isDemoUser = request.cookies.get("demo_user")?.value === "true";
+
+  if (!user && !isDemoUser && !isPublicRoute) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);
   }
 
-  if (user && pathname === "/login") {
+  if ((user || isDemoUser) && pathname === "/login") {
     const url = request.nextUrl.clone();
     url.pathname = "/practice";
     return NextResponse.redirect(url);

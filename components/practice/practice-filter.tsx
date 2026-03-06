@@ -18,16 +18,16 @@ interface PracticeFilterProps {
 
 export function PracticeFilter({ current, onChange }: PracticeFilterProps) {
   return (
-    <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+    <div className="flex gap-2 overflow-x-auto no-scrollbar">
       {filters.map((filter) => (
         <button
           key={filter.value}
           onClick={() => onChange(filter.value)}
           className={cn(
-            "shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors",
+            "shrink-0 px-3 py-1.5 text-[12px] font-bold rounded-full border transition-colors",
             current === filter.value
-              ? "bg-primary text-white"
-              : "bg-white border border-border text-text-secondary hover:bg-surface-hover"
+              ? "bg-[#059669] text-white border-[#059669]"
+              : "bg-white text-[#666] border-[#e5e5e5] active:bg-[#f5f5f7]"
           )}
         >
           {filter.label}

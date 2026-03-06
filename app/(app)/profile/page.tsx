@@ -7,10 +7,8 @@ export default async function ProfilePage() {
 
   return (
     <>
-      <Header title="プロフィール" />
-      <div className="px-4 py-4">
-        <ProfileEditor profile={profile} />
-      </div>
+      <Header title="マイページ" />
+      <ProfileEditor profile={profile} />
     </>
   );
 }

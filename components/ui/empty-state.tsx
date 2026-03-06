@@ -7,20 +7,13 @@ interface EmptyStateProps {
   children?: React.ReactNode;
 }
 
-export function EmptyState({
-  icon: Icon,
-  title,
-  description,
-  children,
-}: EmptyStateProps) {
+export function EmptyState({ icon: Icon, title, description, children }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center py-12 text-center">
-      <Icon className="h-12 w-12 text-text-muted mb-3" />
-      <h3 className="text-sm font-medium text-text-primary">{title}</h3>
-      {description && (
-        <p className="mt-1 text-xs text-text-secondary">{description}</p>
-      )}
-      {children && <div className="mt-4">{children}</div>}
+    <div className="flex flex-col items-center justify-center py-6 text-center">
+      <Icon className="h-8 w-8 text-[#ccc] mb-2" />
+      <p className="text-[13px] font-bold text-[#1a1a1a]">{title}</p>
+      {description && <p className="text-[12px] text-[#999] mt-0.5">{description}</p>}
+      {children && <div className="mt-3">{children}</div>}
     </div>
   );
 }

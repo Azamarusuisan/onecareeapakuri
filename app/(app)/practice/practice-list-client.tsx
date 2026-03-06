@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 import { PracticeFilter } from "@/components/practice/practice-filter";
 import { PracticeCard } from "@/components/practice/practice-card";
 import { Search } from "lucide-react";
@@ -14,11 +13,7 @@ interface PracticeListClientProps {
   initialSearch: string;
 }
 
-export function PracticeListClient({
-  initialRequests,
-  initialType,
-  initialSearch,
-}: PracticeListClientProps) {
+export function PracticeListClient({ initialRequests, initialType, initialSearch }: PracticeListClientProps) {
   const router = useRouter();
   const [type, setType] = useState(initialType);
   const [search, setSearch] = useState(initialSearch);
@@ -32,32 +27,22 @@ export function PracticeListClient({
     router.push(`/practice?${params.toString()}`);
   }
 
-  function handleTypeChange(value: string) {
-    setType(value);
-    updateFilters(value, undefined);
-  }
-
-  function handleSearch(e: React.FormEvent) {
-    e.preventDefault();
-    updateFilters(undefined, search);
-  }
-
   return (
-    <div className="space-y-4">
-      <form onSubmit={handleSearch} className="relative">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
+    <div className="space-y-3">
+      <form onSubmit={(e) => { e.preventDefault(); updateFilters(undefined, search); }} className="relative">
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#999]" />
         <input
           type="text"
           placeholder="企業名・キーワードで検索"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full rounded-lg border border-border bg-white py-2.5 pl-9 pr-3 text-sm placeholder:text-text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          className="w-full border border-[#e5e5e5] rounded-lg bg-white py-2.5 pl-9 pr-3 text-sm placeholder:text-[#999] focus:border-[#059669] focus:outline-none"
         />
       </form>
 
-      <PracticeFilter current={type} onChange={handleTypeChange} />
+      <PracticeFilter current={type} onChange={(v) => { setType(v); updateFilters(v, undefined); }} />
 
-      <div className="space-y-3">
+      <div className="space-y-2">
         {initialRequests.map((request) => (
           <PracticeCard key={request.id} request={request} />
         ))}
