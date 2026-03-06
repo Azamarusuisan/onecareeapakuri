@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Link from "next/link";
 import { requireProfile } from "@/lib/utils/auth";
 import { getPracticeRequests } from "@/lib/db/queries";

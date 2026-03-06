@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { BottomNav } from "@/components/nav/bottom-nav";
 import { ToastProvider } from "@/components/ui/toast";
 

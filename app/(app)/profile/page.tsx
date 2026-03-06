@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { requireProfile } from "@/lib/utils/auth";
 import { Header } from "@/components/nav/header";
 import { ProfileEditor } from "./profile-editor";
