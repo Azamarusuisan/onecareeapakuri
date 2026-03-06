@@ -33,7 +33,7 @@ export function PracticeListClient({ initialRequests, initialType, initialSearch
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#999]" />
         <input
           type="text"
-          placeholder="企業名・キーワードで検索"
+          placeholder="企業名・キーワードで検索（BCG, デロイト…）"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="w-full border border-[#e5e5e5] rounded-lg bg-white py-2.5 pl-9 pr-3 text-sm placeholder:text-[#999] focus:border-[#059669] focus:outline-none"

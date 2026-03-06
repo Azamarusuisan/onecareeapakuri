@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
-import { Video, ChevronRight } from "lucide-react";
+import { Video, ChevronRight, AlertTriangle } from "lucide-react";
 import { formatDateTime } from "@/lib/utils/dates";
 import { PRACTICE_TYPE_LABELS } from "@/lib/types";
 import type { Session, PracticeType } from "@/lib/types";
@@ -31,6 +31,9 @@ export function SessionCard({ session, currentUserId }: SessionCardProps) {
             {practiceType && (
               <Badge variant="primary">{PRACTICE_TYPE_LABELS[practiceType]}</Badge>
             )}
+            {session.meeting_status === "failed" && (
+              <Badge variant="warning">Meet未生成</Badge>
+            )}
           </div>
           <ChevronRight className="h-4 w-4 text-[#ccc]" />
         </div>
@@ -40,7 +43,7 @@ export function SessionCard({ session, currentUserId }: SessionCardProps) {
         </h3>
 
         <div className="mt-2 text-[12px] text-[#999]">
-          {formatDateTime(session.starts_at)}
+          {formatDateTime(session.starts_at)} ・ {session.duration_minutes}分
         </div>
 
         <div className="mt-2.5 pt-2.5 border-t border-[#f0f0f0] flex items-center justify-between">
@@ -51,7 +54,7 @@ export function SessionCard({ session, currentUserId }: SessionCardProps) {
             </span>
           </div>
 
-          {session.status === "scheduled" && session.meet_url && (
+          {session.status === "scheduled" && session.meeting_status === "ready" && session.meet_url && (
             <Button
               size="sm"
               className="h-7 px-2.5 text-[11px] gap-1"
@@ -63,6 +66,13 @@ export function SessionCard({ session, currentUserId }: SessionCardProps) {
               <Video className="h-3 w-3" />
               参加
             </Button>
+          )}
+
+          {session.status === "scheduled" && session.meeting_status === "failed" && (
+            <span className="flex items-center gap-1 text-[11px] text-[#b25e00]">
+              <AlertTriangle className="h-3 w-3" />
+              Meet準備中
+            </span>
           )}
         </div>
       </div>

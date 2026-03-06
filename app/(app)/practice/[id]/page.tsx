@@ -59,6 +59,8 @@ export default async function PracticeDetailPage({
     INTERVIEW_STAGES.find((s) => s.value === request.interview_stage)?.label ??
     request.interview_stage;
 
+  const slots = request.practice_request_slots ?? [];
+
   return (
     <>
       <Header title="募集詳細" showBack />
@@ -92,14 +94,6 @@ export default async function PracticeDetailPage({
             </div>
 
             <div className="flex items-center gap-2">
-              <Calendar className="h-4 w-4 shrink-0 text-text-muted" />
-              <span>
-                {formatDateTime(request.preferred_start_at)} 〜{" "}
-                {formatDateTime(request.preferred_end_at)}
-              </span>
-            </div>
-
-            <div className="flex items-center gap-2">
               <Clock className="h-4 w-4 shrink-0 text-text-muted" />
               <span>{request.duration_minutes}分</span>
             </div>
@@ -119,6 +113,26 @@ export default async function PracticeDetailPage({
           )}
         </Card>
 
+        {/* Available slots */}
+        {slots.length > 0 && (
+          <Card>
+            <h3 className="text-sm font-semibold text-text-primary mb-2">
+              候補日時
+            </h3>
+            <p className="text-[11px] text-[#999] mb-3">この時間帯で練習可能です</p>
+            <div className="space-y-1.5">
+              {slots.map((slot, i) => (
+                <div key={slot.id} className="flex items-center gap-2 text-[13px] text-[#1a1a1a] bg-[#f7f7f8] rounded-lg px-3 py-2">
+                  <Calendar className="h-3.5 w-3.5 text-[#059669] shrink-0" />
+                  <span className="font-medium">{formatDateTime(slot.start_at)}</span>
+                  <span className="text-[#999]">〜</span>
+                  <span className="font-medium">{formatDateTime(slot.end_at)}</span>
+                </div>
+              ))}
+            </div>
+          </Card>
+        )}
+
         {request.status === "matched" && (
           <Card className="bg-emerald-50 border-emerald-200">
             <p className="text-sm font-medium text-emerald-700 text-center">
@@ -135,6 +149,7 @@ export default async function PracticeDetailPage({
             <ApplicationList
               applications={applications}
               requestStatus={request.status}
+              slots={slots}
             />
           </Card>
         )}
@@ -144,7 +159,7 @@ export default async function PracticeDetailPage({
             <h3 className="text-sm font-semibold text-text-primary mb-3">
               この練習に応募する
             </h3>
-            <ApplicationForm requestId={id} hasApplied={hasApplied} />
+            <ApplicationForm requestId={id} hasApplied={hasApplied} slots={slots} />
           </Card>
         )}
 

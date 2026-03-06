@@ -18,6 +18,7 @@ export async function POST(request: Request) {
         request_id: parsed.data.request_id,
         applicant_id: "00000000-0000-0000-0000-000000000000",
         message: parsed.data.message ?? null,
+        selected_slot_ids: parsed.data.selected_slot_ids,
         status: "pending",
         created_at: new Date().toISOString(),
       }, { status: 201 });
@@ -35,7 +36,12 @@ export async function POST(request: Request) {
 
     const { data, error } = await supabase
       .from("practice_applications")
-      .insert({ request_id: parsed.data.request_id, applicant_id: user.id, message: parsed.data.message ?? null })
+      .insert({
+        request_id: parsed.data.request_id,
+        applicant_id: user.id,
+        message: parsed.data.message ?? null,
+        selected_slot_ids: parsed.data.selected_slot_ids,
+      })
       .select().single();
 
     if (error) {

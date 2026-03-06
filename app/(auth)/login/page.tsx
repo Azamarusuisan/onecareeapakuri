@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-import { Shield, Users, BookOpen } from "lucide-react";
+import { Shield, Target, Briefcase } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -52,40 +52,38 @@ export default function LoginPage() {
       </div>
 
       <div className="flex-1 flex flex-col max-w-sm mx-auto w-full">
-        {/* Hero */}
         <div className="px-5 pt-10 pb-6">
-          <p className="text-[11px] font-bold text-[#059669] tracking-wider uppercase mb-2">就活面接対策プラットフォーム</p>
+          <p className="text-[11px] font-bold text-[#059669] tracking-wider uppercase mb-2">難関企業志望者のための実戦練習</p>
           <h1 className="text-[24px] font-bold text-[#1a1a1a] leading-[1.3]">
             匿名で、本気の<br />面接練習を。
           </h1>
           <p className="text-[13px] text-[#666] mt-3 leading-relaxed">
-            外資コンサル・総合商社・メガベンチャーなど<br />
-            高難度企業の選考対策に特化した練習マッチング
+            コンサル・Big4・戦略ファーム志望者に特化。<br />
+            ケース面接・志望動機深掘り・最終面接を<br />
+            本番前に徹底練習。
           </p>
         </div>
 
-        {/* Feature chips */}
         <div className="px-5 pb-6">
           <div className="grid grid-cols-3 gap-2">
             <div className="bg-[#f7f7f8] rounded-lg py-3 px-2 text-center">
-              <Users className="h-5 w-5 text-[#059669] mx-auto mb-1" />
-              <p className="text-[11px] font-bold text-[#1a1a1a]">匿名対応</p>
-              <p className="text-[10px] text-[#999] mt-0.5">実名不要</p>
+              <Target className="h-5 w-5 text-[#059669] mx-auto mb-1" />
+              <p className="text-[11px] font-bold text-[#1a1a1a]">ケース対策</p>
+              <p className="text-[10px] text-[#999] mt-0.5">構造化/打ち手</p>
             </div>
             <div className="bg-[#f7f7f8] rounded-lg py-3 px-2 text-center">
-              <BookOpen className="h-5 w-5 text-[#059669] mx-auto mb-1" />
-              <p className="text-[11px] font-bold text-[#1a1a1a]">面接対策</p>
-              <p className="text-[10px] text-[#999] mt-0.5">ケース/BQ</p>
+              <Briefcase className="h-5 w-5 text-[#059669] mx-auto mb-1" />
+              <p className="text-[11px] font-bold text-[#1a1a1a]">志望動機</p>
+              <p className="text-[10px] text-[#999] mt-0.5">深掘り対策</p>
             </div>
             <div className="bg-[#f7f7f8] rounded-lg py-3 px-2 text-center">
               <Shield className="h-5 w-5 text-[#059669] mx-auto mb-1" />
-              <p className="text-[11px] font-bold text-[#1a1a1a]">安心設計</p>
-              <p className="text-[10px] text-[#999] mt-0.5">通報機能</p>
+              <p className="text-[11px] font-bold text-[#1a1a1a]">完全匿名</p>
+              <p className="text-[10px] text-[#999] mt-0.5">実名不要</p>
             </div>
           </div>
         </div>
 
-        {/* Auth */}
         <div className="px-5 space-y-2.5">
           <Button onClick={handleDemoLogin} disabled={loading} variant="primary" size="lg" className="w-full">
             まずはデモで体験する

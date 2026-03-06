@@ -4,10 +4,9 @@ import { cn } from "@/lib/utils/cn";
 
 const filters = [
   { value: "all", label: "すべて" },
-  { value: "general", label: "一般面接" },
-  { value: "case", label: "ケース" },
+  { value: "case", label: "ケース面接" },
   { value: "motivation", label: "志望動機" },
-  { value: "behavioral", label: "行動面接" },
+  { value: "behavioral", label: "ガクチカ・BQ" },
   { value: "final_round", label: "最終面接" },
 ];
 

@@ -21,7 +21,7 @@ export default async function PracticePage({
 
   return (
     <>
-      <Header title="練習募集をさがす" />
+      <Header title="練習相手を見つける" />
       <div className="px-4 py-3">
         <PracticeListClient
           initialRequests={requests}
@@ -29,9 +29,11 @@ export default async function PracticePage({
           initialSearch={params.q ?? ""}
         />
         {requests.length === 0 && (
-          <EmptyState icon={Users} title="該当する募集がありません" description="条件を変えるか、新しく募集を作成しましょう">
-            <Link href="/practice/new"><Button size="sm">募集を作成</Button></Link>
-          </EmptyState>
+          <div className="mt-4">
+            <EmptyState icon={Users} title="該当する募集がまだありません" description="条件を変えるか、あなたが最初の募集を作成しましょう">
+              <Link href="/practice/new"><Button size="sm">練習募集を作成する</Button></Link>
+            </EmptyState>
+          </div>
         )}
       </div>
       <Link

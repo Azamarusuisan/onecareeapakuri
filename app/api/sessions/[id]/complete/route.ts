@@ -21,7 +21,12 @@ export async function POST(
     if (session.host_user_id !== user.id && session.guest_user_id !== user.id) return NextResponse.json({ error: "権限がありません" }, { status: 403 });
     if (session.status !== "scheduled") return NextResponse.json({ error: "既に完了しています" }, { status: 400 });
 
-    const { error } = await supabase.from("sessions").update({ status: "completed" }).eq("id", sessionId);
+    const { error } = await supabase.from("sessions").update({
+      status: "completed",
+      completed_by: user.id,
+      completed_at: new Date().toISOString(),
+    }).eq("id", sessionId);
+
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
     return NextResponse.json({ success: true });
   } catch {

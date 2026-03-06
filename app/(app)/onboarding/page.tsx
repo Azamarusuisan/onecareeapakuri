@@ -80,13 +80,13 @@ export default function OnboardingPage() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
-        <Input id="display_name" label="表示名（匿名でOK）" placeholder="例: もちもちコンサル志望"
+        <Input id="display_name" label="表示名（匿名でOK）" placeholder="例: ケース特訓中のたなか"
           value={form.display_name} onChange={(e) => setForm((prev) => ({ ...prev, display_name: e.target.value }))} required />
 
         <div className="space-y-1">
           <label className="block text-[13px] font-bold text-[#1a1a1a]">卒業年度</label>
           <div className="flex gap-2">
-            {[26, 27, 28, 29].map((year) => (
+            {[27, 28, 29, 30].map((year) => (
               <button key={year} type="button" onClick={() => setForm((prev) => ({ ...prev, graduation_year: year }))}
                 className={`flex-1 rounded-lg border px-3 py-2 text-sm font-bold transition-colors ${
                   form.graduation_year === year ? "border-[#059669] bg-[#ecfdf5] text-[#059669]" : "border-[#e5e5e5] text-[#666]"
@@ -111,19 +111,19 @@ export default function OnboardingPage() {
           </div>
         </div>
 
-        <Textarea id="target_companies" label="志望企業（任意・カンマ区切り）" placeholder="例: マッキンゼー, BCG, 三菱商事"
+        <Textarea id="target_companies" label="志望企業（任意・カンマ区切り）" placeholder="例: マッキンゼー, BCG, デロイト"
           value={form.target_companies} onChange={(e) => setForm((prev) => ({ ...prev, target_companies: e.target.value }))} rows={2} />
 
         <Input id="university_name" label="大学名（任意）" placeholder="非公開でもOK"
           value={form.university_name} onChange={(e) => setForm((prev) => ({ ...prev, university_name: e.target.value }))} />
 
-        <Textarea id="bio" label="自己紹介（任意）" placeholder="簡単な自己紹介やどんな練習をしたいかなど"
+        <Textarea id="bio" label="自己紹介（任意）" placeholder="どんな練習をしたいか、志望ファームなど"
           value={form.bio} onChange={(e) => setForm((prev) => ({ ...prev, bio: e.target.value }))} rows={3} />
 
         {error && <p className="text-sm text-[#ff3b30]">{error}</p>}
 
         <Button type="submit" disabled={loading} size="lg" className="w-full">
-          {loading ? "作成中..." : "プロフィールを作成して始める"}
+          {loading ? "作成中..." : "はじめる"}
         </Button>
       </form>
     </div>

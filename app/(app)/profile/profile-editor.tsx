@@ -161,7 +161,7 @@ export function ProfileEditor({ profile }: ProfileEditorProps) {
           {editing === "grad" && (
             <div className="px-4 py-3 bg-[#fafafa] border-b border-[#f0f0f0] animate-pop">
               <div className="flex gap-2">
-                {[26, 27, 28, 29, 30].map((y) => (
+                {[27, 28, 29, 30].map((y) => (
                   <button key={y} onClick={() => { setForm((p) => ({ ...p, graduation_year: y })); }}
                     className={`flex-1 rounded-lg border py-2 text-[13px] font-bold ${form.graduation_year === y ? "border-[#059669] bg-[#ecfdf5] text-[#059669]" : "border-[#e5e5e5] text-[#666]"}`}>
                     {y}卒
@@ -205,7 +205,7 @@ export function ProfileEditor({ profile }: ProfileEditorProps) {
           {editing === "bio" && (
             <div className="px-4 py-3 bg-[#fafafa] border-b border-[#f0f0f0] animate-pop">
               <Textarea value={form.bio} onChange={(e) => setForm((p) => ({ ...p, bio: e.target.value }))}
-                placeholder="どんな就活をしているか、練習で求めていることなど" rows={4} />
+                placeholder="志望ファーム、練習で求めていること、ケース経験本数など" rows={4} />
               <Button size="sm" onClick={handleSave} disabled={loading} className="mt-2">保存</Button>
             </div>
           )}
@@ -337,8 +337,8 @@ export function ProfileEditor({ profile }: ProfileEditorProps) {
 
         {/* Footer */}
         <div className="px-4 py-6 text-center">
-          <p className="text-[11px] text-[#ccc]">ShuPra v0.1.0 Beta</p>
-          <p className="text-[10px] text-[#ccc] mt-0.5">本サービスは就職斡旋を行いません</p>
+          <p className="text-[11px] text-[#ccc]">ShuPra v0.2.0 Beta</p>
+          <p className="text-[10px] text-[#ccc] mt-0.5">難関企業志望者のための匿名面接練習アプリ</p>
         </div>
       </div>
     </div>

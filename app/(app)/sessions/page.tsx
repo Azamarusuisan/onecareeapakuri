@@ -1,8 +1,10 @@
+import Link from "next/link";
 import { requireProfile } from "@/lib/utils/auth";
 import { getUserSessions } from "@/lib/db/queries";
 import { Header } from "@/components/nav/header";
 import { SessionCard } from "@/components/sessions/session-card";
 import { EmptyState } from "@/components/ui/empty-state";
+import { Button } from "@/components/ui/button";
 import { CalendarDays } from "lucide-react";
 import { isUpcoming } from "@/lib/utils/dates";
 
@@ -19,11 +21,11 @@ export default async function SessionsPage() {
 
   return (
     <>
-      <Header title="セッション" />
+      <Header title="練習セッション" />
       <div className="px-4 py-4 space-y-6">
         <section>
           <h2 className="text-sm font-semibold text-text-primary mb-3">
-            今後の予定
+            今後の練習予定
           </h2>
           {upcoming.length > 0 ? (
             <div className="space-y-3">
@@ -38,15 +40,17 @@ export default async function SessionsPage() {
           ) : (
             <EmptyState
               icon={CalendarDays}
-              title="予定されているセッションはありません"
-              description="練習募集に応募してマッチングしましょう"
-            />
+              title="予定されている練習はありません"
+              description="募集に応募して練習をはじめよう"
+            >
+              <Link href="/practice"><Button size="sm" variant="outline">練習相手を探す</Button></Link>
+            </EmptyState>
           )}
         </section>
 
         <section>
           <h2 className="text-sm font-semibold text-text-primary mb-3">
-            過去のセッション
+            過去の練習
           </h2>
           {past.length > 0 ? (
             <div className="space-y-3">
@@ -61,7 +65,7 @@ export default async function SessionsPage() {
           ) : (
             <EmptyState
               icon={CalendarDays}
-              title="まだセッション履歴がありません"
+              title="まだ練習履歴がありません"
             />
           )}
         </section>

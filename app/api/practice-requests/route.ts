@@ -18,11 +18,20 @@ export async function POST(request: Request) {
     }
 
     if (await isDemoMode()) {
+      const slots = parsed.data.slots.map((s, i) => ({
+        id: crypto.randomUUID(),
+        request_id: "demo",
+        start_at: s.start_at,
+        end_at: s.end_at,
+        sort_order: i,
+        created_at: new Date().toISOString(),
+      }));
       return NextResponse.json({
         id: crypto.randomUUID(),
         ...parsed.data,
         user_id: "00000000-0000-0000-0000-000000000000",
         status: "open",
+        practice_request_slots: slots,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       }, { status: 201 });
@@ -32,13 +41,37 @@ export async function POST(request: Request) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: "認証が必要です" }, { status: 401 });
 
+    const { slots, ...requestData } = parsed.data;
+
     const { data, error } = await supabase
       .from("practice_requests")
-      .insert({ user_id: user.id, ...parsed.data, target_role: parsed.data.target_role ?? null, description: parsed.data.description ?? null })
+      .insert({
+        user_id: user.id,
+        ...requestData,
+        target_role: requestData.target_role ?? null,
+        description: requestData.description ?? null,
+      })
       .select()
       .single();
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+    // Insert slots
+    const slotRows = slots.map((s, i) => ({
+      request_id: data.id,
+      start_at: s.start_at,
+      end_at: s.end_at,
+      sort_order: i,
+    }));
+
+    const { error: slotError } = await supabase
+      .from("practice_request_slots")
+      .insert(slotRows);
+
+    if (slotError) {
+      console.error("Slot insert error:", slotError);
+    }
+
     return NextResponse.json(data, { status: 201 });
   } catch {
     return NextResponse.json({ error: "サーバーエラーが発生しました" }, { status: 500 });

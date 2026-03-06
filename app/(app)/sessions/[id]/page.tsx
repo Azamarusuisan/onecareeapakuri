@@ -1,12 +1,13 @@
 import { notFound } from "next/navigation";
 import { requireProfile } from "@/lib/utils/auth";
-import { getSessionById, getSessionReviews } from "@/lib/db/queries";
+import { getSessionById, getSessionReviews, getSessionMessages } from "@/lib/db/queries";
 import { Header } from "@/components/nav/header";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { StarRating } from "@/components/ui/star-rating";
 import { ReviewForm } from "@/components/sessions/review-form";
+import { SessionChat } from "@/components/sessions/session-chat";
 import { ReportButton } from "@/components/forms/report-button";
 import { SessionCompleteButton } from "./session-complete-button";
 import { formatDateTime } from "@/lib/utils/dates";
@@ -14,7 +15,7 @@ import {
   PRACTICE_TYPE_LABELS,
   type PracticeType,
 } from "@/lib/types";
-import { Video, Calendar, Building2, User, Clock } from "lucide-react";
+import { Video, Calendar, Building2, User, Clock, AlertTriangle, MessageCircle } from "lucide-react";
 
 export default async function SessionDetailPage({
   params,
@@ -38,7 +39,11 @@ export default async function SessionDetailPage({
     notFound();
   }
 
-  const reviews = await getSessionReviews(id);
+  const [reviews, messages] = await Promise.all([
+    getSessionReviews(id),
+    getSessionMessages(id),
+  ]);
+
   const isHost = session.host_user_id === profile.id;
   const partner = isHost ? session.guest_profile : session.host_profile;
   const partnerId = isHost ? session.guest_user_id : session.host_user_id;
@@ -64,7 +69,7 @@ export default async function SessionDetailPage({
           <div className="space-y-2 text-sm text-text-secondary">
             <div className="flex items-center gap-2">
               <Calendar className="h-4 w-4 shrink-0 text-text-muted" />
-              <span>{formatDateTime(session.starts_at)}</span>
+              <span>{formatDateTime(session.starts_at)} ・ {session.duration_minutes}分</span>
             </div>
 
             {session.practice_requests?.target_company && (
@@ -83,12 +88,9 @@ export default async function SessionDetailPage({
           </div>
         </Card>
 
-        {session.meet_url && session.status === "scheduled" && (
-          <a
-            href={session.meet_url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+        {/* Meet link - ready */}
+        {session.status === "scheduled" && session.meeting_status === "ready" && session.meet_url && (
+          <a href={session.meet_url} target="_blank" rel="noopener noreferrer">
             <Button size="lg" className="w-full gap-2">
               <Video className="h-5 w-5" />
               Google Meetに参加する
@@ -96,6 +98,27 @@ export default async function SessionDetailPage({
           </a>
         )}
 
+        {/* Meet link - failed */}
+        {session.status === "scheduled" && session.meeting_status === "failed" && (
+          <Card className="bg-[#fff8e6] border-[#f5d580]">
+            <div className="flex items-start gap-2.5">
+              <AlertTriangle className="h-4 w-4 text-[#b25e00] mt-0.5 shrink-0" />
+              <div>
+                <p className="text-[13px] font-bold text-[#b25e00]">Meetリンクの生成に失敗しました</p>
+                <p className="text-[12px] text-[#666] mt-0.5">チャットで練習相手と通話方法を相談してください。</p>
+              </div>
+            </div>
+          </Card>
+        )}
+
+        {/* Meet link - pending */}
+        {session.status === "scheduled" && session.meeting_status === "pending" && (
+          <Card className="bg-[#f5f5f7]">
+            <p className="text-[13px] text-[#666] text-center">Meetリンクを準備中です...</p>
+          </Card>
+        )}
+
+        {/* Partner info */}
         <Card>
           <h3 className="text-sm font-semibold text-text-primary mb-2">
             練習相手
@@ -123,6 +146,19 @@ export default async function SessionDetailPage({
           </div>
         </Card>
 
+        {/* Chat */}
+        <Card>
+          <div className="flex items-center gap-2 mb-3">
+            <MessageCircle className="h-4 w-4 text-[#059669]" />
+            <h3 className="text-sm font-semibold text-text-primary">チャット</h3>
+          </div>
+          <SessionChat
+            sessionId={id}
+            currentUserId={profile.id}
+            initialMessages={messages}
+          />
+        </Card>
+
         {session.status === "scheduled" && (
           <SessionCompleteButton sessionId={id} />
         )}
@@ -132,13 +168,17 @@ export default async function SessionDetailPage({
             <h3 className="text-sm font-semibold text-text-primary mb-3">
               レビュー
             </h3>
+
+            {session.completed_at && (
+              <p className="text-[11px] text-[#999] mb-3">
+                {formatDateTime(session.completed_at)} に完了
+              </p>
+            )}
+
             {reviews.length > 0 && (
               <div className="space-y-3 mb-4">
                 {reviews.map((review) => (
-                  <div
-                    key={review.id}
-                    className="rounded-lg bg-surface p-3"
-                  >
+                  <div key={review.id} className="rounded-lg bg-surface p-3">
                     <div className="flex items-center gap-2 mb-1">
                       <StarRating value={review.rating} readonly size="sm" />
                       <span className="text-xs text-text-muted">
@@ -146,9 +186,7 @@ export default async function SessionDetailPage({
                       </span>
                     </div>
                     {review.comment && (
-                      <p className="text-xs text-text-secondary">
-                        {review.comment}
-                      </p>
+                      <p className="text-xs text-text-secondary">{review.comment}</p>
                     )}
                   </div>
                 ))}
