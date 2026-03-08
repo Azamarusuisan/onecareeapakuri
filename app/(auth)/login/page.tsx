@@ -17,9 +17,13 @@ export default function LoginPage() {
       provider,
       options: {
         redirectTo: `${window.location.origin}/api/auth/callback`,
+        scopes:
+          provider === "google"
+            ? "openid email profile https://www.googleapis.com/auth/calendar.events"
+            : undefined,
         queryParams:
           provider === "google"
-            ? { prompt: "select_account" }
+            ? { prompt: "select_account", access_type: "offline" }
             : undefined,
       },
     });

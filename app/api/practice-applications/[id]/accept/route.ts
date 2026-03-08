@@ -86,21 +86,36 @@ export async function POST(
       return NextResponse.json({ error: sessionError.message }, { status: 500 });
     }
 
-    // Step 2: Try to create Google Meet
+    // Step 2: Try to create Google Meet using the host's OAuth token
     let meetUrl: string | null = null;
     let calendarEventId: string | null = null;
     let meetingStatus: "ready" | "failed" = "failed";
 
     try {
-      const meetResult = await createMeetSession({
+      const meetInput = {
         summary: `面接練習: ${practiceRequest.title}`,
         description: `対象企業: ${practiceRequest.target_company}`,
         start: startAt,
         end: endAt,
-      });
-      meetUrl = meetResult.meetUrl;
-      calendarEventId = meetResult.eventId || null;
-      meetingStatus = "ready";
+      };
+
+      // Prefer the host's own Google OAuth token (requires calendar scope at login)
+      const { data: { session: hostSession } } = await supabase.auth.getSession();
+      const providerToken = hostSession?.provider_token;
+
+      if (providerToken) {
+        const { createMeetSessionWithToken } = await import("@/lib/google/calendar");
+        const meetResult = await createMeetSessionWithToken(providerToken, meetInput);
+        meetUrl = meetResult.meetUrl;
+        calendarEventId = meetResult.eventId || null;
+        meetingStatus = "ready";
+      } else {
+        // Fallback: service account
+        const meetResult = await createMeetSession(meetInput);
+        meetUrl = meetResult.meetUrl;
+        calendarEventId = meetResult.eventId || null;
+        meetingStatus = "ready";
+      }
     } catch (err) {
       console.error("Google Calendar API error:", err);
     }
