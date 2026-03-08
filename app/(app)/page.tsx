@@ -34,34 +34,38 @@ export default async function HomePage() {
 
       {/* Action CTAs */}
       <div className="px-4 pt-3 space-y-2">
-        <Link href="/practice/new" className="block">
-          <div className="border-2 border-[#059669] bg-[#ecfdf5] rounded-lg px-4 py-3.5 flex items-center justify-between active:scale-[0.99] transition-transform">
+        <Link href="/practice/new" className="block group">
+          <div className="border-2 border-[#059669] bg-[#ecfdf5] rounded-2xl px-4 py-3.5 flex items-center justify-between transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98]">
             <div className="flex items-center gap-3">
-              <div className="h-9 w-9 rounded-full bg-[#059669] flex items-center justify-center">
-                <Plus className="h-4.5 w-4.5 text-white" />
+              <div className="h-10 w-10 rounded-full bg-[#059669] flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
+                <Plus className="h-5 w-5 text-white" />
               </div>
               <div>
                 <p className="text-[14px] font-bold text-[#059669]">練習募集を作成する</p>
-                <p className="text-[11px] text-[#666] mt-0.5">ケース面接・志望動機の練習相手を見つけよう</p>
+                <p className="text-[11px] text-[#059669]/80 mt-0.5">ケース面接・志望動機の相手を探す</p>
               </div>
             </div>
-            <ArrowRight className="h-4 w-4 text-[#059669]" />
+            <ArrowRight className="h-4 w-4 text-[#059669] group-hover:translate-x-1 transition-transform" />
           </div>
         </Link>
 
-        <div className="grid grid-cols-2 gap-2">
-          <Link href="/practice?type=case" className="block">
-            <div className="border border-[#e5e5e5] rounded-lg px-3 py-3 flex items-center gap-2.5 active:bg-[#fafafa] transition-colors">
-              <Target className="h-4 w-4 text-[#059669] shrink-0" />
+        <div className="grid grid-cols-2 gap-3 mt-3">
+          <Link href="/practice?type=case" className="block group">
+            <div className="border border-[#e5e5e5] rounded-2xl px-3 py-3.5 flex items-center gap-2.5 transition-all duration-200 bg-white hover:border-[#059669]/50 hover:shadow-sm hover:-translate-y-0.5 active:scale-[0.98]">
+              <div className="h-8 w-8 rounded-full bg-[#f5f5f7] flex items-center justify-center group-hover:bg-[#ecfdf5] transition-colors">
+                <Target className="h-4 w-4 text-[#666] group-hover:text-[#059669] transition-colors" />
+              </div>
               <div>
                 <p className="text-[12px] font-bold text-[#1a1a1a]">ケース面接</p>
                 <p className="text-[10px] text-[#999]">練習相手を探す</p>
               </div>
             </div>
           </Link>
-          <Link href="/practice?type=motivation" className="block">
-            <div className="border border-[#e5e5e5] rounded-lg px-3 py-3 flex items-center gap-2.5 active:bg-[#fafafa] transition-colors">
-              <Briefcase className="h-4 w-4 text-[#059669] shrink-0" />
+          <Link href="/practice?type=motivation" className="block group">
+            <div className="border border-[#e5e5e5] rounded-2xl px-3 py-3.5 flex items-center gap-2.5 transition-all duration-200 bg-white hover:border-[#059669]/50 hover:shadow-sm hover:-translate-y-0.5 active:scale-[0.98]">
+               <div className="h-8 w-8 rounded-full bg-[#f5f5f7] flex items-center justify-center group-hover:bg-[#ecfdf5] transition-colors">
+                <Briefcase className="h-4 w-4 text-[#666] group-hover:text-[#059669] transition-colors" />
+              </div>
               <div>
                 <p className="text-[12px] font-bold text-[#1a1a1a]">志望動機深掘り</p>
                 <p className="text-[10px] text-[#999]">壁打ち相手を探す</p>

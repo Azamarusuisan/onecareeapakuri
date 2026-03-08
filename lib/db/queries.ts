@@ -257,12 +257,16 @@ function createDemoMessages(): SessionMessage[] {
 
 export async function getPracticeRequests(filters?: {
   practice_type?: string;
+  interview_stage?: string;
   search?: string;
 }) {
   if (await isDemoMode()) {
     let requests = createDemoRequests();
     if (filters?.practice_type && filters.practice_type !== "all") {
       requests = requests.filter((r) => r.practice_type === filters.practice_type);
+    }
+    if (filters?.interview_stage && filters.interview_stage !== "all") {
+      requests = requests.filter((r) => r.interview_stage === filters.interview_stage);
     }
     if (filters?.search) {
       const q = filters.search.toLowerCase();
@@ -284,6 +288,10 @@ export async function getPracticeRequests(filters?: {
 
   if (filters?.practice_type && filters.practice_type !== "all") {
     query = query.eq("practice_type", filters.practice_type);
+  }
+
+  if (filters?.interview_stage && filters.interview_stage !== "all") {
+    query = query.eq("interview_stage", filters.interview_stage);
   }
 
   if (filters?.search) {

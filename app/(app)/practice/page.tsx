@@ -12,12 +12,13 @@ import { PracticeListClient } from "./practice-list-client";
 export default async function PracticePage({
   searchParams,
 }: {
-  searchParams: Promise<{ type?: string; q?: string }>;
+  searchParams: Promise<{ type?: string; stage?: string; q?: string }>;
 }) {
   await requireProfile();
   const params = await searchParams;
   const requests = await getPracticeRequests({
     practice_type: params.type,
+    interview_stage: params.stage,
     search: params.q,
   });
 
@@ -28,6 +29,7 @@ export default async function PracticePage({
         <PracticeListClient
           initialRequests={requests}
           initialType={params.type ?? "all"}
+          initialStage={params.stage ?? "all"}
           initialSearch={params.q ?? ""}
         />
         {requests.length === 0 && (

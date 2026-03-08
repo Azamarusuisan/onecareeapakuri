@@ -19,8 +19,8 @@ export function PracticeCard({ request }: PracticeCardProps) {
   const firstSlot = slots[0];
 
   return (
-    <Link href={`/practice/${request.id}`} className="block">
-      <div className="bg-white border border-[#e5e5e5] rounded-lg px-4 py-3.5 active:scale-[0.99] active:bg-[#fafafa] transition-all duration-100">
+    <Link href={`/practice/${request.id}`} className="block group">
+      <div className="bg-white border border-[#e5e5e5] rounded-2xl px-4 py-3.5 transition-all duration-200 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-[#d1d5db] active:scale-[0.98]">
         <div className="flex items-center gap-1.5 mb-2">
           <Badge variant="primary">
             {PRACTICE_TYPE_LABELS[request.practice_type as PracticeType]}
@@ -32,10 +32,10 @@ export function PracticeCard({ request }: PracticeCardProps) {
         </div>
 
         <div className="flex items-start justify-between gap-2">
-          <h3 className="text-[14px] font-bold text-[#1a1a1a] leading-snug line-clamp-2 flex-1">
+          <h3 className="text-[14px] font-bold text-[#1a1a1a] leading-snug line-clamp-2 flex-1 group-hover:text-[#059669] transition-colors">
             {request.title}
           </h3>
-          <ChevronRight className="h-4 w-4 text-[#ccc] mt-0.5 shrink-0" />
+          <ChevronRight className="h-4 w-4 text-[#ccc] mt-0.5 shrink-0 group-hover:text-[#059669] group-hover:translate-x-1 transition-all" />
         </div>
 
         <div className="mt-2 flex items-center gap-1 text-[12px] text-[#999]">

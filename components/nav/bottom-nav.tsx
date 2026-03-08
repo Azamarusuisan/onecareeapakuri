@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Search, CalendarDays, User } from "lucide-react";
+import { Home, Search, CalendarDays, Sparkles, User } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
 const navItems = [
   { href: "/", label: "ホーム", icon: Home },
   { href: "/practice", label: "練習を探す", icon: Search },
+  { href: "/es-generator", label: "ES生成", icon: Sparkles },
   { href: "/sessions", label: "セッション", icon: CalendarDays },
   { href: "/profile", label: "マイページ", icon: User },
 ];

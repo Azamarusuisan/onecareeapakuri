@@ -171,3 +171,63 @@ export const TARGET_COMPANIES_SUGGESTIONS = [
   "Amazon",
   "Microsoft",
 ];
+
+// =====================================================
+// ES Generator Feature
+// =====================================================
+
+export type ExperienceCategory =
+  | "club"
+  | "internship"
+  | "volunteer"
+  | "research"
+  | "part_time"
+  | "other";
+
+export const EXPERIENCE_CATEGORY_LABELS: Record<ExperienceCategory, string> = {
+  club: "サークル・部活",
+  internship: "インターンシップ",
+  volunteer: "ボランティア",
+  research: "研究・ゼミ",
+  part_time: "アルバイト",
+  other: "その他",
+};
+
+export const EXPERIENCE_SKILL_SUGGESTIONS = [
+  "リーダーシップ",
+  "課題解決力",
+  "コミュニケーション力",
+  "チームワーク",
+  "分析力",
+  "自律性・主体性",
+  "プレゼンテーション力",
+  "タスク管理力",
+  "創造性",
+  "粘り強さ",
+  "傾聴力",
+  "交渉力",
+];
+
+export interface UserExperience {
+  id: string;
+  user_id: string;
+  title: string;
+  category: ExperienceCategory;
+  description: string;
+  skills: string[];
+  is_default: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface EsGeneration {
+  id: string;
+  user_id: string;
+  company_name: string;
+  question_text: string;
+  char_limit: number;
+  experience_ids: string[];
+  generated_text: string;
+  is_starred: boolean;
+  created_at: string;
+}
